@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+<style>
+    .wrapper {
+        display: flex;
+        justify-content: center;
+    }
+    .btn {
+        margin: 1vw;
+    }
+</style>
+
+<div class="wrapper">
+    <a href={{ path('discount') }} class="btn"><button>Code Promo</button></a>
+
+    {% if app.user %}
+        <a href={{ path('logout') }} class="btn"><button>Se déconnecter</button></a>
+    {% else %}
+        <a href={{ path('login') }} class="btn"><button>Se connecter</button></a>
+    {% endif %}
+</div>
+{% endblock %}

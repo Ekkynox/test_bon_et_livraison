@@ -16,23 +16,23 @@ class DiscountCodeFixtures extends Fixture
         $codes = [
             [
                 'VIVELESVACANCES2022',
-                new DateTime('2022-07-06'),
-                new DateTime('2022-09-03'),
+                new DateTime('2022-06-07'),
+                new DateTime('2022-03-09'),
                 null,
                 null,
                 null,
             ],
             [
                 'ETUDIANT23',
-                new DateTime('2022-07-03'),
-                new DateTime('2022-12-01'),
+                new DateTime('2022-03-07'),
+                new DateTime('2022-01-12'),
                 null,
                 23,
                 null,
             ],
             [
                 'ONLYMONACO',
-                new DateTime('2022-09-11'),
+                new DateTime('2022-11-09'),
                 null,
                 null,
                 null,

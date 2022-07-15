@@ -20,6 +20,9 @@ class Order
 
     #[ORM\OneToOne(mappedBy: 'related_order', targetEntity: ReservedTimeSlot::class, cascade: ['persist', 'remove'])]
     private $reservedTimeSlot;
+
+    #[ORM\Column(type: 'datetime')]
+    private $date;
     
     public function getId(): ?int
     {
@@ -51,6 +54,18 @@ class Order
         }
 
         $this->reservedTimeSlot = $reservedTimeSlot;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
         return $this;
     }

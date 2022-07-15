@@ -16,10 +16,6 @@ class ReservedTimeSlot
     #[ORM\Column(type: 'datetime')]
     private $timeslot;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'reservedTimeSlots')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $user;
-
     #[ORM\OneToOne(inversedBy: 'reservedTimeSlot', targetEntity: Order::class, cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private $related_order;
@@ -37,18 +33,6 @@ class ReservedTimeSlot
     public function setTimeslot(\DateTimeInterface $timeslot): self
     {
         $this->timeslot = $timeslot;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

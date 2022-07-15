@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\ReservedTimeSlot;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,20 +40,20 @@ class ReservedTimeSlotRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return ReservedTimeSlot[] Returns an array of ReservedTimeSlot objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('r')
-//            ->andWhere('r.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('r.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+    * @return ReservedTimeSlot[] retourne les réservations entre deux dates
+    */
+    public function findReservedSlots(DateTime $from, DateTime $to): array
+    {
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.timeslot BETWEEN :from AND :to')
+            ->setParameter('from', $from)
+            ->setParameter('to', $to)
+            ->orderBy('r.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?ReservedTimeSlot
 //    {

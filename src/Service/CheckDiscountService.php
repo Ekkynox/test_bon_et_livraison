@@ -26,8 +26,7 @@ class CheckDiscountService
             $date = new DateTime();
             if ($code->getFromDate() >= $date) $errors[] = 'Ce code promo n\'est pas encore valide.';
             if ($code->getToDate() >= $date) $errors[] = 'Ce code promo n\'est plus valide.';
-            if ($code->getAgeMin() >= $user->getBirthDate()->diff(new DateTime())->y) $errors[] = 'Vous n\'avez pas l\'âge requis pour utiliser ce code.';
-            if ($code->getAgeMax() <= $user->getBirthDate()->diff(new DateTime())->y) $errors[] = 'Vous n\'avez pas l\'âge requis pour utiliser ce code.';
+            if ($code->getAgeMin() >= $user->getBirthDate()->diff(new DateTime())->y || $code->getAgeMax() <= $user->getBirthDate()->diff(new DateTime())->y) $errors[] = 'Vous n\'avez pas l\'âge requis pour utiliser ce code.';
             if ($code->getCity() && $code->getCity() != $user->getCity()) $errors[] = 'Ce code promo n\'est valide que pour les habitants de ' . $code->getCity() . '.';
         } else {
             $errors[] = 'Ce code promo n\'existe pas.';

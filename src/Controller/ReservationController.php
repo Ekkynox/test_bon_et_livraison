@@ -12,6 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/*
+Exemple de requête :
+{
+    "timeslot": "2022-07-18 19:00:00",
+    "orderId": 2
+}
+*/
 class ReservationController extends AbstractController
 {
     #[Route('/reservation/new', name: 'reservation')]

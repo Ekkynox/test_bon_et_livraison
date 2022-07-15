@@ -2,38 +2,35 @@
 
 namespace App\Controller;
 
-use App\Entity\DiscountCode;
-use App\Entity\User;
-use App\Form\DiscountType;
+use App\DataTransfertObjects\CheckDiscountRequest;
 use App\Service\CheckDiscountService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
+/*
+Exemple de requête :
+{
+    "code": "2022-07-18 19:00:00",
+    "userCity": 2",
+    "userBirthDate": "1998-10-31"
+}
+*/
 class DiscountController extends AbstractController
 {
-    #[IsGranted('ROLE_USER')]
-    #[Route('/discount', name: 'discount')]
-    public function index(Request $request, CheckDiscountService $checkDiscountService): Response
+    #[Route('/discount/check', name: 'discount')]
+    public function checkDiscount(Request $request, CheckDiscountService $checkDiscountService, SerializerInterface $serializer): Response
     {
         /**
-         * @var User $user
+         * @var CheckDiscountRequest $checkDiscountRequest
          */
-        $user = $this->getUser();
+        $checkDiscountRequest = $serializer->deserialize($request->getContent(), CheckDiscountRequest::class, 'json');
 
-        $discount = new DiscountCode();
-        $discountForm = $this->createForm(DiscountType::class, $discount);
-        $discountForm->handleRequest($request);
+        $validity = $checkDiscountService->checkDiscount($checkDiscountRequest->getCode(), $checkDiscountRequest->getUserCity(), $checkDiscountRequest->getUserBirthDate());
 
-        if($discountForm->isSubmitted() && $discountForm->isValid()) {
-            $validity = $checkDiscountService->checkDiscount($discount->getCode(), $user);
-            dd($validity);
-        }
-
-        return $this->render('discount/index.html.twig', [
-            'discountForm' => $discountForm->createView(),
-        ]);
+        return new JsonResponse($validity, 200);
     }
 }
